@@ -34,10 +34,20 @@ class PersonServiceImpl final : public WhoIsIt::Service {
   // cppcheck-suppress unusedFunction
   Status SendMe(ServerContext* context, const PersonRequest* request,
                 Person* person) override {
+    std::cout << "Request from another process!" << std::endl;
+    std::cout << "  >> Request name: " << request->name() << std::endl;
+    std::cout << "  >>  Response ID: " << this->_id << std::endl;
+    std::cout << std::endl;
+
     person->set_name(request->name());
     person->set_email("lim.jeikei@gmail.com");
+    person->set_id(this->_id++);
+
     return Status::OK;
   }
+
+    private:
+        int _id = 0;
 };
 
 /// Run template program
@@ -63,3 +73,5 @@ int main(int argc, char** argv) {
 
   return 0;
 }
+
+
