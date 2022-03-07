@@ -46,8 +46,9 @@ class PersonServiceImpl final : public WhoIsIt::Service {
     return Status::OK;
   }
 
-    private:
-        int _id = 0;
+ private:
+  /// Message id (Incremental order)
+  int _id = 0;
 };
 
 /// Run template program
@@ -73,5 +74,3 @@ int main(int argc, char** argv) {
 
   return 0;
 }
-
-
