@@ -3,7 +3,7 @@
 # Run C++ code check. Formating and Linting.
 #
 # - Author: Jongkuk Lim
-# - Contact: limjk@jmarple.ai
+# - Contact: lim.jeikei@gmail.com
 
 
 function run_cmd_on_source() {
@@ -19,7 +19,7 @@ function run_cmd_on_source() {
         if [ $retVal -ne 0 ]; then
             exitCode=$retVal
         fi
-    done < <(find . -not -path './libs/*' -not -path './build/*' -regex '.*\.\(cpp\|hpp\|h\|cc\|cxx\)' -print0)
+    done < <(find . -not -path './libs/*' -not -path './protobuf/*' -not -path './build/*' -regex '.*\.\(cpp\|hpp\|h\|cc\|cxx\)' -print0)
 
     echo "$exitCode"
 }

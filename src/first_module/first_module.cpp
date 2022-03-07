@@ -9,6 +9,7 @@
 
 namespace first_module {
 
+// cppcheck-suppress unusedFunction
 void demo_print_hello(int n_repeat) {
   for (int i = 0; i < n_repeat; i++) {
     std::cout << "Hello" << std::endl;

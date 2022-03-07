@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package protobuf_example;
+
+service WhoIsIt {
+    rpc SendMe (PersonRequest) returns (Person) {}
+}
+
+message Person {
+  string name = 1;
+  optional int32 id = 2;
+  optional string email = 3;
+}
+
+message PersonRequest {
+    string name = 1;
+}
+

@@ -55,9 +55,13 @@ flags = [
 '-x',
 'c++',
 # '-isystem',
-# f"{os.path.join(expanduser('~'), "PATH_TO_YOUR_SYSTEM_INCLUDE_PATH)}",
+# f"{os.path.join(expanduser('~'), 'PATH_TO_YOUR_SYSTEM_INCLUDE_PATH')}",
 '-I',
 'include',
+'-I',
+'protobuf/cxx'
+'-isystem',
+f"{os.path.join(expanduser('~'), '.local/include')}",
 ]
 
 # Clang automatically sets the '-std=' flag to 'c++14' for MSVC 2015 or later,

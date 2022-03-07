@@ -95,3 +95,30 @@ RUN if [ "$USE_ZSH" = "true" ]; then \
     echo "export PATH=/home/user/.local/bin:\$PATH" >> /home/user/.zshrc && \
     echo "export LC_ALL=C.UTF-8 && export LANG=C.UTF-8" >> /home/user/.zshrc; \
     fi
+
+# Install Protobuf
+# RUN sudo apt-get -y install autoconf automake libtool curl make g++ unzip build-essential pkg-config && \
+#     wget https://github.com/protocolbuffers/protobuf/archive/refs/tags/v3.19.4.tar.gz && \
+#     tar -xzvf v3.19.4.tar.gz && \
+#     cd protobuf-3.19.4 && \
+#     ./autogen.sh && \
+#     ./configure && \
+#     make -j `cat /proc/cpuinfo | grep processor | wc -l` && \
+#     sudo make install && \
+#     sudo ldconfig
+
+# Install gRPC
+# Reference: https://grpc.io/docs/languages/cpp/quickstart/
+RUN sudo apt-get -y install autoconf automake libtool curl make g++ unzip build-essential pkg-config
+RUN git clone --recurse-submodules -b v1.43.0 https://github.com/grpc/grpc && \
+    cd grpc && \
+    mkdir -p cmake/build && \
+    cd cmake/build && \
+    cmake -DgRPC_INSTALL=ON \
+        -DgRPC_BUILD_TESTS=OFF \
+        -DCMAKE_INSTALL_PREFIX=/home/user/.local \
+        ../.. && \
+    make -j `cat /proc/cpuinfo | grep processor | wc -l` && \
+    make install
+
+RUN python -m pip install grpcio protobuf
