@@ -3,11 +3,42 @@
 /// @copyright 2021 J.Marple
 /// @brief Main source code.
 
+#include <grpcpp/ext/proto_server_reflection_plugin.h>
+#include <grpcpp/grpcpp.h>
+#include <grpcpp/health_check_service_interface.h>
+
 #include <iostream>
+#include <memory>
 #include <string>
 
-#include "first_module/first_module.hpp"
-#include "second_module/second_module.hpp"
+#include "msg.grpc.pb.h"  // NOLINT
+
+using grpc::Server;
+using grpc::ServerBuilder;
+using grpc::ServerContext;
+using grpc::Status;
+
+using protobuf_example::Person;
+using protobuf_example::PersonRequest;
+using protobuf_example::WhoIsIt;
+
+/// Person Service implementation.
+class PersonServiceImpl final : public WhoIsIt::Service {
+  /// Receieve PersonRequest message via IPC.
+  ///
+  /// @param context: Server context.
+  /// @param request: request message.
+  /// @param person: response message.
+  ///
+  /// @return: Status
+  // cppcheck-suppress unusedFunction
+  Status SendMe(ServerContext* context, const PersonRequest* request,
+                Person* person) override {
+    person->set_name(request->name());
+    person->set_email("lim.jeikei@gmail.com");
+    return Status::OK;
+  }
+};
 
 /// Run template program
 ///
@@ -15,12 +46,20 @@
 /// @param argv: Arguments
 ///
 /// @return: 0
-int main(int argc, char **argv) {
-  for (int i = 0; i < argc; i++) {
-    std::cout << argv[i] << std::endl;
-  }
+int main(int argc, char** argv) {
+  std::string server_address("0.0.0.0:50051");
+  grpc::EnableDefaultHealthCheckService(true);
+  grpc::reflection::InitProtoReflectionServerBuilderPlugin();
 
-  first_module::demo_print_hello(argc);
+  PersonServiceImpl service;
+
+  ServerBuilder builder;
+  builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
+  builder.RegisterService(&service);
+  std::unique_ptr<Server> server(builder.BuildAndStart());
+  std::cout << "Server listening on " << server_address << std::endl;
+
+  server->Wait();
 
   return 0;
 }
