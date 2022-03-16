@@ -1,7 +1,8 @@
 /// @file
-/// @author Jongkuk Lim <limjk@jmarple.ai>
-/// @copyright 2021 J.Marple
-/// @brief Main source code.
+/// @author Jongkuk Lim <lim.jeikei@gmail.com>
+/// @copyright 2022 Jongkuk Lim
+/// @brief gRPC server side source code.
+/// C++ -> Python
 
 #include <grpcpp/ext/proto_server_reflection_plugin.h>
 #include <grpcpp/grpcpp.h>
