@@ -21,6 +21,9 @@ class WhoIsItServer(WhoIsItServicer):
                         name=person_req.name,
                         email="lim.jeikei@gmail.com"
                         )
+        print("[Python] Request from another process!")
+        print(f"  >> Request name: {person_req.name}")
+        print(f"  >> Response ID: {self.id}")
         self.id += 1
         return person
 
